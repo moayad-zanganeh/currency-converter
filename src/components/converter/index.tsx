@@ -3,24 +3,29 @@ import { TextField, IconButton, Box, Typography } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import Image from 'next/image';
 import { conventerLocalization } from '@/constant/localization';
+import { ConverterState } from '@/types/types';
 
 const Converter: React.FC = () => {
-  const [usdAmount, setUsdAmount] = useState<string>('0');
-  const [irrAmount, setIrrAmount] = useState<string>('');
-  const [isUsdToIrr, setIsUsdToIrr] = useState<boolean>(true);
-  const [textUsdToIrr, setTextUsdToIrr] = useState<string>(
-    conventerLocalization.DollarsToRials
-  );
+  const [usdAmount, setUsdAmount] = useState<ConverterState['usdAmount']>('0');
+  const [irrAmount, setIrrAmount] = useState<ConverterState['irrAmount']>('');
+  const [isUsdToIrr, setIsUsdToIrr] =
+    useState<ConverterState['isUsdToIrr']>(true);
+  const [textUsdToIrr, setTextUsdToIrr] = useState<
+    ConverterState['textUsdToIrr']
+  >(conventerLocalization.DollarsToRials);
+
   const exchangeRate = 600000;
 
-  const formatInput = (value: string) => {
+  // Helper function to format input
+  const formatInput = (value: string): string => {
     const numericValue = value.replace(/\D/g, '');
     return new Intl.NumberFormat('en-US').format(
       parseInt(numericValue || '0', 10)
     );
   };
 
-  const handleUsdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Function to handle changes in USD input field
+  const handleUsdChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const formattedValue = formatInput(e.target.value);
     setUsdAmount(formattedValue);
     const irrValue = (
@@ -29,7 +34,8 @@ const Converter: React.FC = () => {
     setIrrAmount(formatInput(irrValue));
   };
 
-  const handleSwap = () => {
+  // Function to swap between USD and IRR
+  const handleSwap = (): void => {
     setIsUsdToIrr(!isUsdToIrr);
     setUsdAmount(irrAmount);
     setIrrAmount(usdAmount);
