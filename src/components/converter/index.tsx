@@ -16,7 +16,6 @@ const Converter: React.FC = () => {
 
   const exchangeRate = 600000;
 
-  // Helper function to format input
   const formatInput = (value: string): string => {
     const numericValue = value.replace(/\D/g, '');
     return new Intl.NumberFormat('en-US').format(
@@ -24,7 +23,6 @@ const Converter: React.FC = () => {
     );
   };
 
-  // Function to handle changes in USD input field
   const handleUsdChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const formattedValue = formatInput(e.target.value);
     setUsdAmount(formattedValue);
@@ -34,7 +32,6 @@ const Converter: React.FC = () => {
     setIrrAmount(formatInput(irrValue));
   };
 
-  // Function to swap between USD and IRR
   const handleSwap = (): void => {
     setIsUsdToIrr(!isUsdToIrr);
     setUsdAmount(irrAmount);
