@@ -5,8 +5,26 @@ import Image from 'next/image';
 import { conventerLocalization } from '@/constant/localization';
 import { getLatestExchangeRate } from '@/api/currencyAPI';
 import { ConverterState } from '@/types/types';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  gradientBackground: {
+    width: '100%',
+    height: '97vh',
+    background: 'linear-gradient(45deg, #ebedff, #f3f2f8, #dbf8ff)',
+    backgroundSize: '200% 200%',
+    animation: '$gradientAnimation 10s ease infinite',
+    filter: 'brightness(1.2)',
+  },
+  '@keyframes gradientAnimation': {
+    '0%': { backgroundPosition: '0% 50%' },
+    '50%': { backgroundPosition: '100% 50%' },
+    '100%': { backgroundPosition: '0% 50%' },
+  },
+});
 
 const Converter: React.FC<ConverterState> = () => {
+  const classes = useStyles();
   const [usdAmount, setUsdAmount] = useState('0');
   const [irrAmount, setIrrAmount] = useState('');
   const [isUsdToIrr, setIsUsdToIrr] = useState(true);
@@ -57,84 +75,74 @@ const Converter: React.FC<ConverterState> = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={2}
-      p={2}
-      sx={{
-        width: '98%',
-        height: '92vh',
-        background: 'linear-gradient(45deg, #ebedff, #f3f2f8, #dbf8ff)',
-        backgroundSize: '200% 200%',
-        animation: 'gradientAnimation 10s ease infinite',
-        filter: 'brightness(1.2)',
-        '@keyframes gradientAnimation': {
-          '0%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-          '100%': { backgroundPosition: '0% 50%' },
-        },
-      }}
-    >
+    <Box className={classes.gradientBackground}>
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          m: 'auto',
-          backgroundColor: 'white',
-          p: 7,
-          borderRadius: '15px',
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.8)',
-        }}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={2}
+        p={2}
+        sx={{}}
       >
-        <Typography
+        <Box
           sx={{
-            fontSize: '18px',
-            fontWeight: 900,
-            mb: 3,
-            fontFamily: 'Iransans',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            m: 'auto',
+            backgroundColor: 'white',
+            p: 7,
+            borderRadius: '15px',
+            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.8)',
           }}
         >
-          {textUsdToIrr}
-        </Typography>
-        <Box display="flex" alignItems="center" gap={1}>
-          <Image
-            src={isUsdToIrr ? '/images/USD.png' : '/images/IRAN.png'}
-            alt={isUsdToIrr ? 'USD' : 'IRR'}
-            width={30}
-            height={20}
-          />
-          <TextField
-            label={isUsdToIrr ? 'USD' : 'IRR'}
-            value={usdAmount}
-            onChange={handleUsdChange}
-            inputProps={{
-              inputMode: 'numeric',
+          <Typography
+            sx={{
+              fontSize: '18px',
+              fontWeight: 900,
+              mb: 3,
+              fontFamily: 'Iransans',
             }}
-          />
-        </Box>
+          >
+            {textUsdToIrr}
+          </Typography>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Image
+              src={isUsdToIrr ? '/images/USD.png' : '/images/IRAN.png'}
+              alt={isUsdToIrr ? 'USD' : 'IRR'}
+              width={30}
+              height={20}
+            />
+            <TextField
+              label={isUsdToIrr ? 'USD' : 'IRR'}
+              value={usdAmount}
+              onChange={handleUsdChange}
+              inputProps={{
+                inputMode: 'numeric',
+              }}
+            />
+          </Box>
 
-        <IconButton onClick={handleSwap}>
-          <SwapHorizIcon />
-        </IconButton>
+          <IconButton onClick={handleSwap}>
+            <SwapHorizIcon />
+          </IconButton>
 
-        <Box display="flex" alignItems="center" gap={1}>
-          <Image
-            src={isUsdToIrr ? '/images/IRAN.png' : '/images/USD.png'}
-            alt={isUsdToIrr ? 'IRR' : 'USD'}
-            width={30}
-            height={20}
-          />
-          <TextField
-            label={isUsdToIrr ? 'IRR' : 'USD'}
-            value={irrAmount}
-            disabled
-            inputProps={{
-              inputMode: 'numeric',
-            }}
-          />
+          <Box display="flex" alignItems="center" gap={1}>
+            <Image
+              src={isUsdToIrr ? '/images/IRAN.png' : '/images/USD.png'}
+              alt={isUsdToIrr ? 'IRR' : 'USD'}
+              width={30}
+              height={20}
+            />
+            <TextField
+              label={isUsdToIrr ? 'IRR' : 'USD'}
+              value={irrAmount}
+              disabled
+              inputProps={{
+                inputMode: 'numeric',
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
